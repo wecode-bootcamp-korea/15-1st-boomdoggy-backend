@@ -37,7 +37,7 @@ class ImagesProducts(models.Model):
     products    = models.ForeignKey("Products", on_delete = models.CASCADE)
 
     class Meta:
-        db_table: "images_products"
+        db_table = "images_products"
 
 class Images(models.Model):
     image_url    = models.CharField(max_length=2000)
@@ -59,7 +59,7 @@ class Review(models.Model):
     products         = models.ForeignKey("Products", on_delete = models.CASCADE)
 
     class Meta:
-        db_table: "reviews"
+        db_table = "reviews"
 
     def __str__(self):
         return self.name
