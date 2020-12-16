@@ -1,6 +1,6 @@
 from django.db  import models
 
-from users.models       import Users
+from users.models       import Users, Addresses
 from orders.models      import Orders
 
 
@@ -13,7 +13,7 @@ class Payments(models.Model):
     county_region       =   models.CharField(max_length = 100)
     postcode            =   models.CharField(max_length = 50)
     phone_number        =   models.CharField(max_length = 200)
-    address_id          =   models.ForeignKey("users.Users",on_delete = models.CASCADE)
+    address          =   models.ForeignKey("users.Addresses",on_delete = models.CASCADE)
 
     class Meta :
         db_table = "payments"
@@ -21,7 +21,7 @@ class Payments(models.Model):
 class Shipping(models.Model):
     delivery_method     =   models.CharField(max_length = 200)
     shipping_fee        =   models.DecimalField(max_digits = 3, decimal_places = 2)
-    order_id            =   models.ForeignKey("orders.Orders", on_delete = models.CASCADE)
+    order            =   models.ForeignKey("orders.Orders", on_delete = models.CASCADE,default=None)
 
     class Meta :
         db_table = "shipping"
@@ -30,9 +30,9 @@ class PaymentsCard(models.Model):
     credit_card_number  =   models.IntegerField(default = 0)
     cvc_number          =   models.IntegerField(default = 0)
     validation_code     =   models.CharField(max_length = 50)
-    user_id             =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
-    payments_id         =   models.ForeignKey("Payments", on_delete = models.CASCADE)
-    payments_type_id    =   models.ForeignKey("PaymentsType", on_delete = models.CASCADE)
+    users                =   models.ForeignKey("users.Users", on_delete = models.CASCADE,default=None)
+    payments            =   models.ForeignKey("Payments", on_delete = models.CASCADE,default=None)
+    payments_types      =   models.ForeignKey("PaymentsType", on_delete = models.CASCADE,default=None)
 
     class Meta :
         db_table = "payments_card"

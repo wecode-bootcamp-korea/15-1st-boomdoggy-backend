@@ -2,17 +2,18 @@ from django.db  import  models
 
 from products.models    import  Products
 
+
 class Orders(models.Model):
     total_cost          =   models.DecimalField(max_digits = 3, decimal_places = 2)
     created_at          =   models.DateTimeField(auto_now_add = True)
     discount_code       =   models.CharField(max_length = 100)
-    user_id             =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
-    payment_id          =   models.ForeignKey("Payments", on_delete = models.CASCADE)
-    oder_status_id      =   models.ForeignKey("OrderStatus", on_delete = models.CASCADE)
-    payment_id          =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
+    users                =   models.ForeignKey("users.Users", on_delete = models.CASCADE,default=None)
+    payments             =   models.ForeignKey("payments.Payments", on_delete = models.CASCADE,default=None)
+    order_status        =   models.ForeignKey("OrderStatus", on_delete = models.CASCADE,default=None)
+    payments_types       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE,default=None)
 
     class Meta :
-        db_table = "order"
+        db_table = "orders"
 
 class OrderStatus(models.Model):
     name         =   models.CharField(max_length = 45)
@@ -23,20 +24,20 @@ class OrderStatus(models.Model):
 class Carts(models.Model):
     created_at          =   models.DateTimeField(auto_now_add = True)
     quantity            =   models.CharField(max_length=200)
-    product_id          =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
-    user_id             =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
-    order_id            =   models.ForeignKey("Orders", on_delete = models.CASCADE)
-    payment_id          =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
+    products            =   models.ForeignKey("products.Products", on_delete = models.CASCADE, default=None)
+    users               =   models.ForeignKey("users.Users", on_delete = models.CASCADE,default=None)
+    orders               =   models.ForeignKey("Orders", on_delete = models.CASCADE,default=None)
+    payments_types       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE,default=None)
 
     class Meta :
-        db_table = "cart"
+        db_table = "carts"
 
-class Subscriptions(models.Model):
-    subscription        =   models.BooleanField(default = False)
+class Subscription(models.Model):
+    subscription        =   models.BooleanField()
     weeks               =   models.CharField(max_length = 100)
     discount_rate       =   models.IntegerField(default=0)
-    user_id             =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
-    order_id            =   models.ForeignKey("Orders", on_delete = models.CASCADE)
+    users                =   models.ForeignKey("users.Users", on_delete = models.CASCADE, default=None)
+    orders               =   models.ForeignKey("Orders", on_delete = models.CASCADE, default=None)
 
     class Meta :
         db_table = "subscription"

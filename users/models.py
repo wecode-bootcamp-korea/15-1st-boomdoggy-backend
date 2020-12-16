@@ -8,14 +8,14 @@ class Users(models.Model):
     annoymous       =   models.SmallIntegerField(default = 0)
 
     class Meta:
-        db_table = "Users"
+        db_table = "users"
 
     def __str__(self):
         return self.name
 
 
 class Addresses(models.Model):
-    user_id         =   models.ForeignKey("Users", on_delete = models.CASCADE)
+    users           =   models.ForeignKey("Users", on_delete = models.CASCADE)
     address         =   models.CharField(max_length = 200)
 
     class Meta:
