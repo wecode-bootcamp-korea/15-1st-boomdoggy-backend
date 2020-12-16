@@ -49,4 +49,19 @@ class Images(models.Model):
     def __str__(self):
         return self.name
 
+class Review(models.Model):
+    name            = models.CharField(max_length = 100)
+    created_at      = models.DateTimeField(auto_now_add = True)
+    reviews         = models.CharField(max_length =1000)
+    review_ratings  = models.IntegerField(default = 0)
+    img_url         = models.CharField(max_length = 500)
+    category_id     = models.ForeignKey("Categories", on_delete = models.CASCADE)
+    product_id      = models.ForeignKey("Products", on_delete = models.CASCADE)
+
+    class Meta:
+        db_table: "reviews"
+
+    def __str__(self):
+        return self.name
+
 
