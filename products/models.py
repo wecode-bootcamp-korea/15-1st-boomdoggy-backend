@@ -23,6 +23,7 @@ class Products(models.Model):
     ingredients     = models.CharField(max_length = 1000)
     stock_rate      = models.IntegerField(default=0)
     sale_rate       = models.IntegerField(default=0)
+    image           = models.ForeignKey("Images", on_delete = models.CASCADE)
 
     class Meta:
         db_table = "products"
@@ -30,16 +31,8 @@ class Products(models.Model):
     def __str__(self):
         return self.name
 
-class ImagesProducts(models.Model):
-    image      = models.ForeignKey("Images", on_delete = models.CASCADE)
-    product    = models.ForeignKey("Products", on_delete = models.CASCADE)
-
-    class Meta:
-        db_table = "images_products"
-
 class Images(models.Model):
     image_url       = models.CharField(max_length=2000)
-    image           = models.ManyToManyField(Products, through = "ImagesProducts")
 
     class Meta:
         db_table = "images"
