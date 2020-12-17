@@ -15,7 +15,7 @@ class Users(models.Model):
 
 
 class Addresses(models.Model):
-    users           =   models.ForeignKey("Users", on_delete = models.CASCADE)
+    user            =   models.ForeignKey("Users", on_delete = models.CASCADE)
     address         =   models.CharField(max_length = 200)
 
     class Meta:
