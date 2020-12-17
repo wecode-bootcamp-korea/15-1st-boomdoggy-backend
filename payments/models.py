@@ -21,17 +21,14 @@ class Payments(models.Model):
         db_table = "payments"
 
 class Shipping(models.Model):
-    delivery_method     =   models.CharField(max_length = 200)
+    name                =   models.CharField(max_length = 200)
     shipping_fee        =   models.DecimalField(max_digits = 10, decimal_places = 2)
-    order            =   models.ForeignKey("orders.Orders", on_delete = models.CASCADE)
+    order               =   models.ForeignKey("orders.Orders", on_delete = models.CASCADE)
 
     class Meta :
         db_table = "shipping"
 
 class PaymentsCard(models.Model):
-    credit_card_number  =   models.IntegerField(default = 0)
-    cvc_number          =   models.IntegerField(default = 0)
-    validation_code     =   models.CharField(max_length = 50)
     users                =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
     payments            =   models.ForeignKey("Payments", on_delete = models.CASCADE)
     payments_types      =   models.ForeignKey("PaymentsType", on_delete = models.CASCADE)
