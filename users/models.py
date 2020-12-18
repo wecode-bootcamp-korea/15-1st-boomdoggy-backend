@@ -19,6 +19,16 @@ class Users(models.Model):
 #로그인 후 마이페이지 내에 있는 고객 주소 관리
 class Addresses(models.Model):
     user                =   models.ForeignKey('Users', on_delete = models.CASCADE)
+    address             =   models.CharField(max_length = 500)
+    address_list        =   models.ForeignKey('AddressList', on_delete = models.CASCADE)
+
+    class Meta:
+        db_table = "address"
+
+    def __str__(self):
+        return self.name
+
+class AddressList(models.Model):
     first_name          =   models.CharField(max_length = 200)
     last_name           =   models.CharField(max_length = 200)
     address             =   models.CharField(max_length = 500)
@@ -27,11 +37,11 @@ class Addresses(models.Model):
     county_region       =   models.CharField(max_length = 100)
     postcode            =   models.CharField(max_length = 50)
     phone_number        =   models.CharField(max_length = 50, validators=[validate_phone], blank = False)
+    company             =   models.CharField(max_length = 100)
 
     class Meta:
-        db_table = "address"
+        db_table = "address_list"
 
     def __str__(self):
         return self.name
-
 
