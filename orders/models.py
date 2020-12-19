@@ -4,12 +4,10 @@ from products.models    import  Products
 
 
 class Orders(models.Model):
-    total_cost          =   models.DecimalField(max_digits = 10, decimal_places = 2)
     created_at          =   models.DateTimeField(auto_now_add = True)
     user                =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
     payment             =   models.ForeignKey("payments.Payments", on_delete = models.CASCADE)
     order_status        =   models.ForeignKey("OrderStatus", on_delete = models.CASCADE)
-#    payments_type       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
 
     class Meta :
         db_table = "orders"
