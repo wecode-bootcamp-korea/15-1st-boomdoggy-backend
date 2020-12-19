@@ -8,22 +8,9 @@ class Users(models.Model):
     last_name       =   models.CharField(max_length=100)
     email           =   models.EmailField(max_length = 200, verbose_name = "emails", unique = True)
     password        =   models.CharField(max_length = 200)
-    annoymous       =   models.SmallIntegerField(default = 0)
 
     class Meta:
         db_table = "users"
-
-    def __str__(self):
-        return self.name
-
-#로그인 후 마이페이지 내에 있는 고객 주소 관리
-class Addresses(models.Model):
-    user                =   models.ForeignKey('Users', on_delete = models.CASCADE)
-    address             =   models.CharField(max_length = 500)
-    address_list        =   models.ForeignKey('AddressList', on_delete = models.CASCADE)
-
-    class Meta:
-        db_table = "address"
 
     def __str__(self):
         return self.name
@@ -38,6 +25,7 @@ class AddressList(models.Model):
     postcode            =   models.CharField(max_length = 50)
     phone_number        =   models.CharField(max_length = 50, validators=[validate_phone], blank = False)
     company             =   models.CharField(max_length = 100)
+    user                =   models.ForeignKey('Users', on_delete = models.CASCADE)
 
     class Meta:
         db_table = "address_list"

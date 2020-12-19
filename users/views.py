@@ -6,10 +6,7 @@ from    django.http                 import  JsonResponse
 from    django.views                import  View
 from    boomdoggy.settings          import  SECRET_KEY
 
-from    .models                     import  Users
-import  validation
-validate_phone = validation.validate_phone
-validate_city = validation.validate_city
+from    .models                     import  Users 
 
 
 
@@ -76,4 +73,6 @@ class SignIn(View) :
 
             
         except KeyError : 
-            return JsonResponse({'message' : 'INVALID_KEY'}, status = 400)
+            return JsonResponse({'message' : 'INVALID_KEY'}, status = 400) 
+
+
