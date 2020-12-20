@@ -6,8 +6,8 @@ from    django.http                 import  JsonResponse
 from    django.views                import  View
 from    boomdoggy.settings          import  SECRET_KEY
 
-from    .models                     import  Users, AddressList 
-
+from    .models                     import  Users, AddressList
+from    users.utils                 import  login_decorator
 
 
 class SignUp(View) : 
@@ -72,9 +72,10 @@ class SignIn(View) :
 
 
 class Address(View):
+    @login_decorator.login_check
     def post(self, request):
         data                = json.loads(request.body)
-
+        
         try:
             if not (
                     data['first_name'] and data['last_name'] and data['address'] and data['city'] and 
@@ -97,14 +98,11 @@ class Address(View):
                         user                =   Users.objects.filter(id=user_id).get()
                         )
                 return JsonResponse({'message' : 'SUCCESS'}, status = 201)
+            
 
         except KeyError:
             return JsonResponse({'message' : 'INVALID_KEY'}, status = 400)
 
     def delete(self, request):
-        
-
         address = AddressList.objects.get(id=address_list_id)
         address.delete()
-
-

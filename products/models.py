@@ -1,5 +1,6 @@
 from django.db      import models
 from django.db.models.deletion import CASCADE
+from django.db.models.fields.related import create_many_to_many_intermediary_model
 
 class Categories(models.Model):
     name    = models.CharField(max_length = 200)
@@ -30,6 +31,7 @@ class Products(models.Model):
 class Images(models.Model):
     image_url       = models.CharField(max_length=2000)
     product         = models.ForeignKey("products", on_delete = models.CASCADE)
+    category        = models.ForeignKey("Categories", on_delete = models.CASCADE)
 
     class Meta:
         db_table = "images"
