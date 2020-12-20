@@ -20,7 +20,6 @@ class Products(models.Model):
     ingredients     = models.CharField(max_length = 1000)
     stock_status    = models.IntegerField(default=0)
     sale_rate       = models.ForeignKey("Sale", on_delete = models.CASCADE)
-    image           = models.ForeignKey("Images", on_delete = models.CASCADE)
 
     class Meta:
         db_table = "products"
@@ -30,6 +29,7 @@ class Products(models.Model):
 
 class Images(models.Model):
     image_url       = models.CharField(max_length=2000)
+    product         = models.ForeignKey("products", on_delete = models.CASCADE)
 
     class Meta:
         db_table = "images"

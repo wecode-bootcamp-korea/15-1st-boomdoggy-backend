@@ -62,7 +62,7 @@ class OptionPieces(models.Model):
 
 class Options(models.Model):
     optionkilograms     =   models.ForeignKey('OptionKilograms', on_delete = models.CASCADE)
-    OptionPieces        =   models.ForeignKey('OptionPieces', on_delete = models.CASCADE)
+    optionpieces        =   models.ForeignKey('OptionPieces', on_delete = models.CASCADE)
     product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
 
     class Meta:

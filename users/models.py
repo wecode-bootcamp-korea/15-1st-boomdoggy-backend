@@ -21,7 +21,7 @@ class AddressList(models.Model):
     address             =   models.CharField(max_length = 500)
     appartment_type     =   models.CharField(max_length = 500)
     city                =   models.CharField(max_length = 200, validators=[validate_city], blank = False)
-    county_region       =   models.CharField(max_length = 100)
+    country_region      =   models.CharField(max_length = 100)
     postcode            =   models.CharField(max_length = 50)
     phone_number        =   models.CharField(max_length = 50, validators=[validate_phone], blank = False)
     company             =   models.CharField(max_length = 100)

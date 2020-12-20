@@ -6,7 +6,7 @@ from    django.http                 import  JsonResponse
 from    django.views                import  View
 from    boomdoggy.settings          import  SECRET_KEY
 
-from    .models                     import  Users 
+from    .models                     import  Users, AddressList 
 
 
 
@@ -74,5 +74,42 @@ class SignIn(View) :
             
         except KeyError : 
             return JsonResponse({'message' : 'INVALID_KEY'}, status = 400) 
+
+
+class Address(View):
+    def post(self, request):
+        data                = json.loads(request.body)
+
+        try:
+            if not (
+                    data['first_name'] and data['last_name'] and data['address'] and data['city'] and 
+                    data['country_region'] and data['postcode'] and data['phone_number']
+                    ):
+                return JsonResponse({'message' : 'INCORRECT_ADDRESS'}, status = 401)
+
+            else:
+                user_id = data['user_id']
+                AddressList.objects.create(
+                        first_name          =   data['first_name'],
+                        last_name           =   data['last_name'],
+                        address             =   data['address'],
+                        appartment_type     =   data['appartment_type'],
+                        city                =   data['city'],
+                        country_region      =   data['country_region'],
+                        postcode            =   data['postcode'],
+                        phone_number        =   data['phone_number'],
+                        company             =   data['company'],
+                        user                =   Users.objects.filter(id=user_id).get()
+                        )
+                return JsonResponse({'message' : 'SUCCESS'}, status = 201)
+
+        except KeyError:
+            return JsonResponse({'message' : 'INVALID_KEY'}, status = 400)
+
+    def delete(self, request):
+        
+
+        address = AddressList.objects.get(id=address_list_id)
+        address.delete()
 
 
