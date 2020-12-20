@@ -1,6 +1,6 @@
 from django.db  import models
 
-from users.models       import Users, Addresses
+from users.models       import Users
 from orders.models      import Orders
 import validation
 validate_phone = validation.validate_phone
@@ -15,7 +15,7 @@ class Payments(models.Model):
     county_region       =   models.CharField(max_length = 100)
     postcode            =   models.CharField(max_length = 50)
     phone_number        =   models.CharField(max_length = 50, validators=[validate_phone], blank = False)
-    address             =   models.ForeignKey("users.Addresses",on_delete = models.CASCADE)
+    user                =   models.ForeignKey("users.Users",on_delete = models.CASCADE)
 
     class Meta :
         db_table = "payments"
