@@ -8,7 +8,7 @@ class Orders(models.Model):
     user                =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
     payment             =   models.ForeignKey("payments.Payments", on_delete = models.CASCADE)
     order_status        =   models.ForeignKey("OrderStatus", on_delete = models.CASCADE)
-    Option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
+    option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
 
     class Meta :
         db_table = "orders"
@@ -26,28 +26,24 @@ class Carts(models.Model):
     order               =   models.ForeignKey("Orders", on_delete = models.CASCADE)
     total_price         =   models.DecimalField(max_digits = 10, decimal_places = 2)
     payments_type       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
+    option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
+
 
     class Meta :
         db_table = "carts"
 
-class OptionKilograms(models.Model):
-    kilogram            =   models.IntegerField(default = 2)
-    rate                =   models.IntegerField(default = 0)
+class ProductOption(models.Model):
+    option              =   models.ForeignKey("Options", on_delete = models.CASCADE)
+    product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
+
 
     class Meta:
         db_table = "option_kilograms"
 
-class OptionPieces(models.Model):
-    piece               =   models.IntegerField(default = 5)
-    rate                =   models.IntegerField(default = 0)
-
-    class Meta:
-        db_table = "option_pieces"
-
 class Options(models.Model):
-    optionkilograms     =   models.ForeignKey("OptionKilograms", on_delete = models.CASCADE)
-    OptionPieces        =   models.ForeignKey("OptionPieces", on_delete = models.CASCADE)
-    product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
+    kilogram            =   models.IntegerField(default = 0)
+    rate                =   models.IntegerField(default = 0)
+    option              =   models.ManyToManyField("products.Products" , through= "ProductOption")
 
     class Meta:
         db_table = "options"

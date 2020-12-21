@@ -3,7 +3,7 @@ import json
 from django.http    import JsonResponse
 from django.views   import View
 
-from products.models import Categories, Images, Products, Sale
+from products.models import Categories, Images, Products, Sale, Review
 
 class ProductListView(View):
     def get(self,request):
@@ -41,3 +41,19 @@ class ProductListView(View):
                 "sale_rate"     : products[i].sale_rate.sale_rate} for i in range(len(products))]
             return JsonResponse({"products_list":products_list}, status=200)
 
+
+
+class ProductReviewView(View):
+    def get(self,request):
+        review = Review.objects.all()
+
+        review_list = [{
+            "id"                : review[i].id,
+            "name"              : review[i].name,
+            "image"         : review[i].image_url,
+            "content"           : review[i].content,
+            "date"              : review[i].created_at,
+            "content_rating"    : review[i].content_rating,
+        }for i in range(len(review))]
+
+        return JsonResponse({"review_list":review_list}, status=200)

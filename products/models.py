@@ -12,8 +12,7 @@ class Categories(models.Model):
 class Products(models.Model):
     category        = models.ForeignKey("Categories", on_delete = models.CASCADE)
     name            = models.CharField(max_length = 100, unique=True)
-    review_rating   = models.SmallIntegerField(blank= True)
-    price           = models.DecimalField(max_digits = 10, decimal_places = 2)
+    price           = models.IntegerField(default=0)
     description     = models.TextField()
     benefit         = models.CharField(max_length = 1000)
     ingredients     = models.CharField(max_length = 1000)
