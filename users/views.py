@@ -7,7 +7,7 @@ from    django.views                import  View
 from    boomdoggy.settings          import  SECRET_KEY
 
 from    .models                     import  Users, AddressList
-from    users.utils                 import  login_decorator
+from    .utils.login_decorator      import  login_check  
 
 
 class SignUp(View) : 
@@ -39,7 +39,7 @@ class SignUp(View) :
                     last_name   =   data['last_name'],
                     email       =   data['email'],
                     password    =   hashed_password.decode('utf-8'),
-                    )
+            )
             return JsonResponse({'message' : 'SUCCESS'}, status = 201)
 
         except KeyError : 
@@ -52,12 +52,10 @@ class SignIn(View) :
         data        = json.loads(request.body)
         email       = data.get('email')
         password    = data.get('password')
-
         
         try : 
             if Users.objects.filter(email = email).exists() : 
                 user = Users.objects.get(email = email)
-
                 if bcrypt.checkpw(data['password'].encode('utf-8'), user.password.encode('utf-8')) : 
                     access_token = jwt.encode(
                             {'email': email}, SECRET_KEY, algorithm = 'HS256'
@@ -72,10 +70,9 @@ class SignIn(View) :
 
 
 class Address(View):
-    @login_decorator.login_check
+    @login_check
     def post(self, request):
-        data                = json.loads(request.body)
-        
+        data                = json.loads(request.body)        
         try:
             if not (
                     data['first_name'] and data['last_name'] and data['address'] and data['city'] and 

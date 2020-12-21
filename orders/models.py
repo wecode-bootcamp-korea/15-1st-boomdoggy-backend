@@ -32,6 +32,7 @@ class Carts(models.Model):
     order               =   models.ForeignKey("Orders", on_delete = models.CASCADE)
     total_price         =   models.DecimalField(max_digits = 10, decimal_places = 2)
     payments_type       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
+    option              =   models.ForeignKey("Options", on_delete = models.CASCADE)
 
     class Meta :
         db_table = "carts"
