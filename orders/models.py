@@ -8,6 +8,7 @@ class Orders(models.Model):
     user                =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
     payment             =   models.ForeignKey("payments.Payments", on_delete = models.CASCADE)
     order_status        =   models.ForeignKey("OrderStatus", on_delete = models.CASCADE)
+    Option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
 
     class Meta :
         db_table = "orders"
