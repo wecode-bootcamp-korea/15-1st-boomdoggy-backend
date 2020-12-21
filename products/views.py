@@ -4,6 +4,7 @@ from django.http    import JsonResponse
 from django.views   import View
 
 from products.models import Categories, Images, Products, Sale, Review
+from orders.models   import Options
 
 class ProductListView(View):
     def get(self,request):
@@ -41,6 +42,28 @@ class ProductListView(View):
                 "sale_rate"     : products[i].sale_rate.sale_rate} for i in range(len(products))]
             return JsonResponse({"products_list":products_list}, status=200)
 
+class ProductDetailView(View):
+    def get(self,request, product_id):
+        products = Products.objects.get(id=product_id)
+        option = Options.objects.all()
+        products_detail   = f"{products.name}_detail"
+        data = {
+            "id"            : products.id,
+            "name"          : products.name,
+            "main_image"    : Images.objects.filter(product_id=product_id).first().image_url,
+            "sub_image"     : Images.objects.filter(product_id=product_id).last().image_url,
+            "category"      : Categories.objects.get(id=products.category_id).name,
+            "price"         : products.price,
+            "stock"         : products.stock_status,
+            "sale_rate"     : products.sale_rate.sale_rate,
+            "kg_2"          : option[0].kilogram,
+            "kg_6"          : option[1].kilogram,
+            "kg_12"         : option[2].kilogram,
+            "kg_2_rate"     : option[0].rate,
+            "kg_6_rate"     : option[1].rate,
+            "kg_12_rate"    : option[2].rate,
+            }
+        return JsonResponse({products_detail:data}, status=201)
 
 
 class ProductReviewView(View):
