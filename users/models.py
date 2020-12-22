@@ -1,7 +1,7 @@
-from django.db import models
-import validation
-validate_phone      = validation.validate_phone
-validate_city       = validation.validate_city
+from    django.db   import models
+import  validation
+validate_phone = validation.validate_phone
+validate_city = validation.validate_city
 
 class Users(models.Model):
     first_name      =   models.CharField(max_length=100)
@@ -11,6 +11,9 @@ class Users(models.Model):
 
     class Meta:
         db_table = "users"
+
+    def __str__(self):
+        return self.name
 
 class AddressList(models.Model):
     first_name          =   models.CharField(max_length = 200)
@@ -26,4 +29,7 @@ class AddressList(models.Model):
 
     class Meta:
         db_table = "address_list"
+
+    def __str__(self):
+        return self.name
 

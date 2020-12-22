@@ -20,14 +20,14 @@ class ProductListView(View):
             products    = Products.objects.filter(category_id=category_id)
 
         products_list = [{
-        "id"            : products[i].id,
-        "name"          : products[i].name,
-        "main_image"    : Products.objects.get(id = products[i].id).images_set.all().first().image_url,
-        "sub_image"     : Products.objects.get(id = products[i].id).images_set.all().last().image_url,
-        "category"      : products[i].category.name,
-        "price"         : products[i].price,
-        "stock"         : products[i].stock_status,
-        "sale_rate"     : products[i].sale_rate.sale_rate} for i in range(len(products))]
+        "id"            : a.id,
+        "name"          : a.name,
+        "main_image"    : Products.objects.get(id = a.id).images_set.all().first().image_url,
+        "sub_image"     : Products.objects.get(id = a.id).images_set.all().last().image_url,
+        "category"      : product.category.name,
+        "price"         : a.price,
+        "stock"         : a.stock_status,
+        "sale_rate"     : a.sale_rate.sale_rate} for a in products]
         return JsonResponse({"products_list":products_list}, status=200)
 
 class ProductDetailView(View):
@@ -40,7 +40,7 @@ class ProductDetailView(View):
                 "name"          : product.name,
                 "main_image"    : Products.objects.get(id=product_id).images_set.all().first().image_url,
                 "sub_image"     : Products.objects.get(id=product_id).images_set.all().last().image_url,
-                "category"      : Categories.objects.get(id=product.category_id).name,
+                "category"      : Products.objects.get(id=1).category.name,
                 "description"   : product.description,
                 "benefits"      : product.benefit,
                 "ingredients"   : product.ingredients,
@@ -61,13 +61,13 @@ class ProductDetailView(View):
 
 class ProductReviewView(View):
     def get(self,request):
-        review = Review.objects.all()
+        reviews = Review.objects.all()
         review_list = [{
-            "id"                : i.id,
-            "name"              : i.name,
-            "image"             : i.image_url,
-            "content"           : i.content,
-            "date"              : i.created_at,
-            "content_rating"    : i.content_rating,
-        }for i in review]
+            "id"                : review.id,
+            "name"              : review.name,
+            "image"             : review.image_url,
+            "content"           : review.content,
+            "date"              : review.created_at,
+            "content_rating"    : review.content_rating,
+        }for review in reviews]
         return JsonResponse({"review_list":review_list}, status=200)

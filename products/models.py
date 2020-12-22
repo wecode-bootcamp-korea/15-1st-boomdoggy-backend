@@ -1,4 +1,6 @@
 from django.db      import models
+from django.db.models.deletion import CASCADE
+from django.db.models.fields.related import create_many_to_many_intermediary_model
 
 class Categories(models.Model):
     name    = models.CharField(max_length = 200)
@@ -49,5 +51,4 @@ class Sale(models.Model):
 
     class Meta:
         db_table = "sales"
-
 

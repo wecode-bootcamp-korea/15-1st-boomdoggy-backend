@@ -12,11 +12,18 @@ class Orders(models.Model):
     class Meta :
         db_table = "orders"
 
+    def __str__(self):
+        return self.name
+
+
 class OrderStatus(models.Model):
     name         =   models.CharField(max_length = 45)
 
     class Meta :
         db_table = "orders_status"
+
+    def __str__(self):
+        return self.name
 
 class Carts(models.Model):
     created_at          =   models.DateTimeField(auto_now_add = True)
@@ -35,7 +42,6 @@ class ProductOption(models.Model):
     option              =   models.ForeignKey("Options", on_delete = models.CASCADE)
     product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
 
-
     class Meta:
         db_table = "option_kilograms"
 
@@ -46,3 +52,4 @@ class Options(models.Model):
 
     class Meta:
         db_table = "options"
+
