@@ -24,12 +24,11 @@ class ProductListView(View):
                 "price"         : foods[i].price,
                 "stock"         : foods[i].stock_status,
                 "sale_rate"     : foods[i].sale_rate.sale_rate} for i in range(len(foods))]
-            return JsonResponse({"ourfoods_list":foods_list}, status=200)
+            return JsonResponse({"products_list":foods_list}, status=200)
 
         else:
             category_id    = Categories.objects.get(name=category).id
             products    = Products.objects.filter(category_id=category_id)
-            products_list   = f"{category}_list"
 
             products_list = [{
                 "id"            : products[i].id,
@@ -46,7 +45,6 @@ class ProductDetailView(View):
     def get(self,request, product_id):
         products = Products.objects.get(id=product_id)
         option = Options.objects.all()
-        products_detail   = f"{products.name}_detail"
         data = {
             "id"            : products.id,
             "name"          : products.name,
@@ -63,7 +61,7 @@ class ProductDetailView(View):
             "kg_6_rate"     : option[1].rate,
             "kg_12_rate"    : option[2].rate,
             }
-        return JsonResponse({products_detail:data}, status=201)
+        return JsonResponse({"products_detail":data}, status=201)
 
 
 class ProductReviewView(View):
