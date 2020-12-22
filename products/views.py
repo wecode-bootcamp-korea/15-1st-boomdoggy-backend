@@ -22,8 +22,8 @@ class ProductListView(View):
         products_list = [{
         "id"            : products[i].id,
         "name"          : products[i].name,
-        "main_image"    : Images.objects.filter(product_id = products[i].id).first().image_url,
-        "sub_image"     : Images.objects.filter(product_id = products[i].id).last().image_url,
+        "main_image"    : Products.objects.get(id = products[i].id).images_set.all().first().image_url,
+        "sub_image"     : Products.objects.get(id = products[i].id).images_set.all().last().image_url,
         "category"      : products[i].category.name,
         "price"         : products[i].price,
         "stock"         : products[i].stock_status,
