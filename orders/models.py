@@ -8,7 +8,6 @@ class Orders(models.Model):
     user                =   models.ForeignKey("users.Users", on_delete = models.CASCADE)
     payment             =   models.ForeignKey("payments.Payments", on_delete = models.CASCADE)
     order_status        =   models.ForeignKey("OrderStatus", on_delete = models.CASCADE)
-    option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
 
     class Meta :
         db_table = "orders"
@@ -24,10 +23,10 @@ class Carts(models.Model):
     quantity            =   models.IntegerField(default=0)
     product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
     order               =   models.ForeignKey("Orders", on_delete = models.CASCADE)
-    total_price         =   models.DecimalField(max_digits = 10, decimal_places = 2)
+    total_price         =   models.IntegerField(default=0)
+    sub_total           =   models.IntegerField(default=0)
     payments_type       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
     option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
-
 
     class Meta :
         db_table = "carts"
