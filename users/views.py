@@ -14,7 +14,6 @@ from    .utils.login_decorator      import  login_check
 class SignUp(View) :
     def post(self, request) :
         data = json.loads(request.body)
-
         #비밀번호 암호화
         hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
 
@@ -24,7 +23,7 @@ class SignUp(View) :
 
         try :
             if not (data['first_name'] and data['last_name']) :
-                return JsonResponse({'messages' : 'INVALID_NAME'}, status = 400)
+                return JsonResponse({'message' : 'INVALID_NAME'}, status = 400)
 
             if not re.match(REGEX_EMAIL, data['email']) :
                 return JsonResponse({'message' : 'INVALID_EMAIL'}, status = 400)
@@ -59,10 +58,8 @@ class SignIn(View) :
                 user = Users.objects.get(email = email)
                 if bcrypt.checkpw(data['password'].encode('utf-8'), user.password.encode('utf-8')) :
                     access_token = jwt.encode(
-                            {'email': email}, SECRET_KEY, algorithm = 'HS256'
-                            ).decode('utf-8')
-
-                    return JsonResponse({'message' : 'SUCCESS', 'Token' : access_token}, status = 200)
+                            {'email': email}, SECRET_KEY, algorithm = 'HS256')
+                    return JsonResponse({'message' : 'SUCCESS', "email":email, 'Token' : access_token}, status = 200)
                 return JsonResponse({'message' : 'INVALID_PASSWORD'}, status = 401)
             return JsonResponse({'message' : "INVALID_USER"}, status = 401)
 
