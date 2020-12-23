@@ -14,8 +14,7 @@ class Categories(models.Model):
 class Products(models.Model):
     category        = models.ForeignKey("Categories", on_delete = models.CASCADE)
     name            = models.CharField(max_length = 100, unique=True)
-    review_rating   = models.SmallIntegerField(blank= True)
-    price           = models.DecimalField(max_digits = 10, decimal_places = 2)
+    price           = models.IntegerField(default=0)
     description     = models.TextField()
     benefit         = models.CharField(max_length = 1000)
     ingredients     = models.CharField(max_length = 1000)
@@ -25,19 +24,12 @@ class Products(models.Model):
     class Meta:
         db_table = "products"
 
-    def __str__(self):
-        return self.name
-
 class Images(models.Model):
     image_url       = models.CharField(max_length=2000)
-    product         = models.ForeignKey("products", on_delete = models.CASCADE)
-    category        = models.ForeignKey("Categories", on_delete = models.CASCADE)
+    product         = models.ForeignKey("Products", on_delete = models.CASCADE)
 
     class Meta:
         db_table = "images"
-
-    def __str__(self):
-        return self.name
 
 class Review(models.Model):
     name            = models.CharField(max_length = 100)
@@ -59,7 +51,4 @@ class Sale(models.Model):
 
     class Meta:
         db_table = "sales"
-
-    def __str__(self):
-        return self.name
 

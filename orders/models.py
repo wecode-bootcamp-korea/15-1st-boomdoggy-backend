@@ -30,44 +30,26 @@ class Carts(models.Model):
     quantity            =   models.IntegerField(default=0)
     product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
     order               =   models.ForeignKey("Orders", on_delete = models.CASCADE)
-    total_price         =   models.DecimalField(max_digits = 10, decimal_places = 2)
+    total_price         =   models.IntegerField(default=0)
+    sub_total           =   models.IntegerField(default=0)
     payments_type       =   models.ForeignKey("payments.PaymentsType", on_delete = models.CASCADE)
-    option              =   models.ForeignKey("Options", on_delete = models.CASCADE)
+    option              =   models.ForeignKey("Options",on_delete = models.CASCADE)
 
     class Meta :
         db_table = "carts"
 
-    def __str__(self):
-        return self.name
-
-class OptionKilograms(models.Model): 
-    kilogram            =   models.IntegerField(default = 2)
-    rate                =   models.IntegerField(default = 0)
+class ProductOption(models.Model):
+    option              =   models.ForeignKey("Options", on_delete = models.CASCADE)
+    product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
 
     class Meta:
         db_table = "option_kilograms"
 
-    def __str__(self):
-        return self.name
-
-class OptionPieces(models.Model):
-    piece               =   models.IntegerField(default = 5)
-    rate                =   models.IntegerField(default = 0)
-    
-    class Meta:
-        db_table = "option_pieces"
-
-    def __str__(self):
-        return self.name
-
-
 class Options(models.Model):
-    optionkilograms     =   models.ForeignKey('OptionKilograms', on_delete = models.CASCADE)
-    optionpieces        =   models.ForeignKey('OptionPieces', on_delete = models.CASCADE)
-    product             =   models.ForeignKey("products.Products", on_delete = models.CASCADE)
+    kilogram            =   models.IntegerField(default = 0)
+    rate                =   models.IntegerField(default = 0)
+    option              =   models.ManyToManyField("products.Products" , through= "ProductOption")
 
     class Meta:
         db_table = "options"
 
-    def __str__(self):
-        return self.name
