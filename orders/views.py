@@ -35,7 +35,6 @@ class Cart(View):
                 add_order_id = Orders.objects.get(user_id=user_id, order_status_id=1).id
 
             if Carts.objects.filter(order_id=add_order_id, product_id=data['product_id']).exists():
-                print("ㅣㅏ  노나..")
                 cart    = Carts.objects.get(order_id=add_order_id, product_id=data['product_id'])
                 cart.quantity += int(data['quantity'])
                 cart.total_price = cart.product.price * int(cart.quantity)
