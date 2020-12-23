@@ -9,7 +9,7 @@ from    users.utils.login_decorator     import  login_check
 
 from    .models                         import  Carts, Orders, Options
 from    users.models                    import  Users
-from    products.models                 import  Products
+from    products.models                 import  Products, Images
 from    payments.models                 import  PaymentsType
 
 
@@ -55,3 +55,25 @@ class Cart(View):
 
         except KeyError:
             return JsonResponse({'message' : 'KEY_ERROR'}, status=400)
+
+    #장바구니 조회
+    def get(self, request):
+        user_id = 1
+
+        try:
+            order = Orders.objects.get(id=user_id)
+            cart_list = order.carts_set.all()
+            carts=[{
+                "id": item.product_id,
+                "product_name": item.product.name,
+                "image": Images.objects.filter(product_id=item.product_id)[0].image_url,
+                "option_kg": Carts.objects.filter(option_id=item.option_id)[0].option.kilogram,
+                "price": item.product.price,
+                "quantity": item.quantity,
+                "total": int(item.product.price)*int(item.quantity)
+                }for item in cart_list]
+ 
+            return JsonResponse({'message' : 'SUCCESS', 'cart' : cart}, status=200)
+        
+        except Carts.DoesNotExist:
+            return JsonResponse({'message' : 'SUCCESS', 'cart' : cart}, status=200)
