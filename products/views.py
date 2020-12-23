@@ -11,23 +11,25 @@ class ProductListView(View):
         category    = request.GET.get('name', None)
         products    = Products.objects.all()
 
-        if category=="ourfoods":
+        if category == "ourfoods":
             treats = Categories.objects.get(name="treats")
             products = Products.objects.exclude(category_id = treats)
+        elif category == "allfoods":
+            products = Products.objects.all()
 
         else:
-            category_id    = Categories.objects.get(name=category).id
+            category_id = Categories.objects.get(name=category).id
             products    = Products.objects.filter(category_id=category_id)
 
         products_list = [{
-        "id"            : a.id,
-        "name"          : a.name,
-        "main_image"    : Products.objects.get(id = a.id).images_set.all().first().image_url,
-        "sub_image"     : Products.objects.get(id = a.id).images_set.all().last().image_url,
+        "id"            : product.id,
+        "name"          : product.name,
+        "main_image"    : Products.objects.get(id = product.id).images_set.all().first().image_url,
+        "sub_image"     : Products.objects.get(id = product.id).images_set.all().last().image_url,
         "category"      : product.category.name,
-        "price"         : a.price,
-        "stock"         : a.stock_status,
-        "sale_rate"     : a.sale_rate.sale_rate} for a in products]
+        "price"         : product.price,
+        "stock"         : product.stock_status,
+        "sale_rate"     : product.sale_rate.sale_rate} for product in products]
         return JsonResponse({"products_list":products_list}, status=200)
 
 class ProductDetailView(View):
