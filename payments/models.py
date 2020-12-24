@@ -19,7 +19,7 @@ class Payments(models.Model):
 
     class Meta:
         db_table = "payments"
-    
+
     def __str__(self):
         return self.name
 
@@ -31,7 +31,7 @@ class Shipping(models.Model):
 
     class Meta:
         db_table = "shipping"
-    
+
     def __str__(self):
         return self.name
 
