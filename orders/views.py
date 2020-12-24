@@ -27,7 +27,7 @@ class Cart(View):
                         user_id             = user_id,
                         order_status_id     = 1,
                         payment_id          = 1,
-            )
+                        )
 
                 add_order_id = add_order.id
 
@@ -42,13 +42,14 @@ class Cart(View):
 
                 return JsonResponse({'message' : 'SUCCESS'}, status=200)
             
-            Carts.objects.create(
-                    order_id            = add_order_id,
-                    product_id          = data['product_id'],
-                    quantity            = data['quantity'],
-                    option_id           = data['option_id'],
-                    payments_type_id    = data['payments_type_id'],
-                    total_price         = int(data['quantity']) * int(Products.objects.filter(id=data['product_id']).values_list('price', flat=True)[0]),
+            else:
+               Carts.objects.create(
+                       order_id            = add_order_id,
+                       product_id          = data['product_id'],
+                       quantity            = data['quantity'],
+                       option_id           = data['option_id'],
+                       payments_type_id    = 1,
+                       total_price         = int(data['quantity']) * int(Products.objects.filter(id=data['product_id']).values_list('price', flat=True)[0]),
                     )
 
             return JsonResponse({'message' : 'SUCCESS'}, status = 201)
@@ -59,7 +60,7 @@ class Cart(View):
     #장바구니 조회
     def get(self, request):
         user_id = 1
-
+        
         try:
             order = Orders.objects.get(id=user_id)
             cart_list = order.carts_set.all()
